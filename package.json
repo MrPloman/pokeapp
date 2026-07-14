@@ -1,5 +1,8 @@
 {
   "name": "pokemon-monorepo",
   "private": true,
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "devDependencies": {
+    "turbo": "^2.10.4"
+  }
 }
