@@ -1,0 +1,28 @@
+.button {
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+
+    &:focus-visible {
+        outline: 2px solid #0057ff; // el color que prefieras
+        outline-offset: 2px;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+}
+
+.primary {
+    background-color: #0057ff;
+    color: white;
+}
+
+.secondary {
+    background-color: transparent;
+    color: #0057ff;
+    border: 1px solid #0057ff;
+}

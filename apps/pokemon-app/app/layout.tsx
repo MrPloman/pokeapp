@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.scss";
+import "@repo/ui/dist/index.css";
 
 export const metadata: Metadata = {
     title: "Create Next App",
