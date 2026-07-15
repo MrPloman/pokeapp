@@ -1,12 +1,14 @@
+@use "../styles/variables" as vars;
+
 .button {
     border: none;
-    border-radius: 6px;
-    padding: 0.5rem 1rem;
+    border-radius: vars.$radius-base;
+    padding: vars.$spacing-sm vars.$spacing-md;
     font-size: 1rem;
     cursor: pointer;
 
     &:focus-visible {
-        outline: 2px solid #0057ff; // el color que prefieras
+        outline: 2px solid vars.$color-primary;
         outline-offset: 2px;
     }
 
@@ -17,12 +19,12 @@
 }
 
 .primary {
-    background-color: #0057ff;
-    color: white;
+    background-color: vars.$color-primary;
+    color: vars.$color-primary-contrast;
 }
 
 .secondary {
     background-color: transparent;
-    color: #0057ff;
-    border: 1px solid #0057ff;
+    color: vars.$color-primary;
+    border: 1px solid vars.$color-primary;
 }

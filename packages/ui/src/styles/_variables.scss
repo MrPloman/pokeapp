@@ -1,0 +1,29 @@
+$color-primary: #9b1000;
+$color-primary-contrast: #de685b92; // 8-digit hex, ~57% alpha built in
+$radius-base: 6px;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+
+// Spacing scale
+$spacing-xs: 0.25rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+
+// Radius
+$radius-sm: $radius-base;
+$radius-md: $radius-base * 2;
+$radius-lg: $radius-base * 4;
+
+// Background and surface colors
+$color-bg: #120907;
+$color-surface: #1c0f0c;
+$color-surface-2: #241410;
+$color-ink: #f5ece7;
+$color-ink-muted: #c9a89f;
+$color-ink-faint: #8a655d;
+$color-line: rgba(245, 236, 231, 0.08);
+
+// Typos
+$font-display: "Baloo 2", system-ui, sans-serif;
+$font-body: "Inter", system-ui, sans-serif;
+$font-mono: "JetBrains Mono", monospace;
