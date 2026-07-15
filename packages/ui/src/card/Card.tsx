@@ -1,18 +1,26 @@
-import styles from "./Button.module.scss";
+import styles from "./Card.module.scss";
 import type { ImgHTMLAttributes } from "react";
+import { Button, ButtonProps } from "../button/Button";
 
-interface CardProps {
-    title: string;
+export interface CardProps {
     img: ImgHTMLAttributes<HTMLImageElement>;
-    description: string;
+    id: number;
+    title: string;
+    buttons: ButtonProps[];
 }
 
 export function Card({ ...props }: CardProps) {
     return (
         <div className={styles.card}>
             <img {...props.img} />
-            <h3>{props.title}</h3>
-            <p>{props.description}</p>
+            <h2>
+                #{props.id}: {props.title}
+            </h2>
+            <div className={styles.buttons}>
+                {props.buttons.map((button, index) => (
+                    <Button key={index} {...button} />
+                ))}
+            </div>
         </div>
     );
 }

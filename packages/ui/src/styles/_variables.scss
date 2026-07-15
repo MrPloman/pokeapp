@@ -1,5 +1,5 @@
-$color-primary: #9b1000;
-$color-primary-contrast: #de685b92; // 8-digit hex, ~57% alpha built in
+$color-primary: #b4805f;
+$color-primary-contrast: #e8b89485;
 $radius-base: 6px;
 $spacing-sm: 0.5rem;
 $spacing-md: 1rem;
@@ -15,13 +15,13 @@ $radius-md: $radius-base * 2;
 $radius-lg: $radius-base * 4;
 
 // Background and surface colors
-$color-bg: #120907;
-$color-surface: #1c0f0c;
-$color-surface-2: #241410;
-$color-ink: #f5ece7;
-$color-ink-muted: #c9a89f;
-$color-ink-faint: #8a655d;
-$color-line: rgba(245, 236, 231, 0.08);
+$color-bg: #241c17;
+$color-surface: #2d241d;
+$color-surface-2: #372c23;
+$color-ink: #f2e8dd;
+$color-ink-muted: #cdb9a5;
+$color-ink-faint: #93806e;
+$color-line: rgba(242, 232, 221, 0.08);
 
 // Typos
 $font-display: "Baloo 2", system-ui, sans-serif;
