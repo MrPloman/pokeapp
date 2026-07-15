@@ -2,25 +2,25 @@ import styles from "./Card.module.scss";
 import type { ImgHTMLAttributes } from "react";
 import { Button, ButtonProps } from "../button/Button";
 
-export interface CardProps {
-    img: ImgHTMLAttributes<HTMLImageElement>;
-    id: number;
+export interface CardProps extends React.HTMLAttributes<HTMLElement> {
+    img: ImgHTMLAttributes<HTMLImageElement> & { alt: string };
+    id: string;
     title: string;
     buttons: ButtonProps[];
 }
 
-export function Card({ ...props }: CardProps) {
+export function Card({ img, id, title, buttons, ...props }: CardProps) {
     return (
-        <div className={styles.card}>
-            <img {...props.img} />
+        <article className={styles.card} {...props}>
+            <img {...img} />
             <h2>
-                #{props.id}: {props.title}
+                #{id}: {title}
             </h2>
-            <div className={styles.buttons}>
-                {props.buttons.map((button, index) => (
-                    <Button key={index} {...button} />
+            <footer className={styles.buttons}>
+                {buttons.map((button) => (
+                    <Button key={button.label} {...button} />
                 ))}
-            </div>
-        </div>
+            </footer>
+        </article>
     );
 }
