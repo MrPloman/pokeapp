@@ -18,10 +18,18 @@ export const Water: Story = {
     },
 };
 
+export const WaterSelected: Story = {
+    args: {
+        label: "Water",
+        color: "#6390F0",
+        selected: true,
+    },
+};
+
 export const Fire: Story = {
     args: {
         label: "Fire",
         color: "#EE8130",
-        selected: false,
+        selected: true,
     },
 };

@@ -1,5 +1,6 @@
 import styles from "./Badge.module.scss";
 import type { ButtonHTMLAttributes } from "react";
+import { getAccessibleTextColor } from "../utils/getAccessibleTextColor";
 
 export interface BadgeProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     label: string;
@@ -8,11 +9,14 @@ export interface BadgeProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function Badge({ label, color, selected = false, className, ...props }: BadgeProps) {
+    const textColor = getAccessibleTextColor(color);
     return (
         <button
             type="button"
             className={`${styles.badge} ${selected ? styles.selected : ""} ${className ?? ""}`}
-            style={{ "--badge-color": color } as React.CSSProperties}
+            style={
+                { "--badge-color": color, "--badge-text-color": textColor } as React.CSSProperties
+            }
             aria-pressed={selected}
             {...props}
         >
