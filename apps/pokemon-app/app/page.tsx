@@ -1,10 +1,16 @@
 import Image from "next/image";
-import { Button, Card, Badge, Skeleton } from "@repo/ui";
+import { Button, Card, Badge, Skeleton, Layout } from "@repo/ui";
 
 export default function Home() {
     return (
         <div>
             <main>
+                <Layout
+                    children={<p>Contenido principal</p>}
+                    header={<h1>Header</h1>}
+                    footer={<p>Footer</p>}
+                />
+
                 <Badge label="Nuevo" color="green" selected={true} />
                 <Image
                     className="dark:invert"

@@ -1,0 +1,36 @@
+@use "../styles/variables" as vars;
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header {
+    padding: vars.$spacing-md;
+}
+
+.main {
+    flex: 1;
+    padding: vars.$spacing-md;
+}
+
+.footer {
+    padding: vars.$spacing-md;
+    margin-top: auto;
+}
+
+.skipLink {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: vars.$color-primary;
+    color: vars.$color-primary-contrast;
+    padding: vars.$spacing-sm vars.$spacing-md;
+    z-index: 100;
+    transition: top 0.2s ease;
+
+    &:focus {
+        top: 0;
+    }
+}
