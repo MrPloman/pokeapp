@@ -51,6 +51,12 @@ $contrast-opaque: #de685b;
         color: v.$color-ink;
         text-align: center;
     }
+    .badges {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: v.$spacing-sm;
+    }
 }
 
 .buttons {
