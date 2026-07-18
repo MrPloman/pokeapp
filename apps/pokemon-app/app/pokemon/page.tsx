@@ -5,14 +5,11 @@ import { getTypeColor } from "@/src/presentation/pokemon/pokemonColors";
 import { PokeApiPokemonRepository } from "@/src/infrastructure/PokeApiPokemonRepository";
 
 export default async function PokemonListPage() {
-    const pokemonList = await getPokemonListUseCase.execute();
-    const repo = new PokeApiPokemonRepository();
-    const result = await repo.findByType(["fire", "water"]);
+    const pokemonPage = await getPokemonListUseCase.execute({ limit: 10, offset: 0 });
 
     return (
         <div>
-            <pre>{JSON.stringify(result, null, 2)}</pre>
-            {pokemonList.items.map((pokemon: any) => (
+            {pokemonPage.items.map((pokemon: any) => (
                 <Card
                     key={pokemon.id}
                     id={String(pokemon.id)}
