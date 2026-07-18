@@ -1,5 +1,5 @@
-import type { PokemonDetails } from "@repo/core";
-import { PokemonRepository } from "@repo/core";
+import type { PokemonDetails, PokemonPreview } from "@repo/core";
+import { PaginatedResult, PokemonRepository } from "@repo/core";
 import { isPokemonDetailsObject } from "./validators";
 
 function mapToPokemonDetails(raw: unknown): PokemonDetails | null {
@@ -41,12 +41,18 @@ function mapToPokemonDetails(raw: unknown): PokemonDetails | null {
             },
         };
 }
-
+async function findByUrl(url: string): Promise<PokemonDetails | null> {
+    if (!url) return null;
+    const response = await fetch(url);
+    const pokemonDetails: unknown = await response.json();
+    if (!pokemonDetails) return null;
+    return mapToPokemonDetails(pokemonDetails);
+}
 export class PokeApiPokemonRepository implements PokemonRepository {
     private readonly baseUrl = process.env.POKEAPI_BASE_URL || "https://pokeapi.co/api/v2";
 
-    async findAll(): Promise<{ results: PokemonDetails[] | []; next: string; count: number }> {
-        const response = await fetch(`${this.baseUrl}/pokemon/?limit=10&offset=0`);
+    async findAllPreview(limit = 10, offset = 0): Promise<PaginatedResult<PokemonPreview>> {
+        const response = await fetch(`${this.baseUrl}/pokemon/?limit=${limit}&offset=${offset}`);
         const {
             count,
             next,
@@ -54,42 +60,52 @@ export class PokeApiPokemonRepository implements PokemonRepository {
         }: {
             count: number;
             next: string;
-            results: [];
+            results: { name: string; url: string }[];
         } = await response.json();
         if (!results || results.length === 0)
             return {
-                count,
-                next,
-                results,
+                items: [],
+                hasMore: false,
+                total: 0,
             };
-        // 1. Map each item into a Promise (and handle the 'else' case properly)
+        // Map each item into a Promise (and handle the 'else' case properly)
         const pokemonPromises = results.map(async (pokemon: { name: string; url: string }) => {
-            const _pokemon = await this.findByURL(pokemon.url);
+            const _pokemon = await findByUrl(pokemon.url);
             return _pokemon || null; // standardizes missing items as null
         });
 
-        // 2. Await all promises concurrently
+        // Await all promises concurrently
         const resolvedList = await Promise.all(pokemonPromises);
 
-        // 3. Filter out null/undefined results so the type strictly matches PokemonDetails[]
+        // Filter out null/undefined results so the type strictly matches PokemonDetails[]
         let pokemonList: PokemonDetails[] = resolvedList.filter(
             (pokemon): pokemon is PokemonDetails => pokemon !== null,
         );
         if (!pokemonList || pokemonList.length === 0 || !Array.isArray(pokemonList))
-            return { count, next, results: [] };
-        else return { count, next, results: [...pokemonList] };
+            return {
+                items: [],
+                hasMore: false,
+                total: 0,
+            };
+        else
+            return {
+                items: pokemonList.map((value: PokemonDetails): PokemonPreview => {
+                    return {
+                        id: value.id,
+                        name: value.name,
+                        imageUrl: value.imageUrl,
+                        types: value.types,
+                    };
+                }),
+                hasMore: !!next,
+                total: count,
+            };
     }
     async findById(id: string): Promise<PokemonDetails | null> {
         if (!id) return null;
         const response = await fetch(`${this.baseUrl}/pokemon/${id}`);
         const pokemonDetails: unknown = await response.json();
-        return await mapToPokemonDetails(pokemonDetails);
-    }
-
-    async findByURL(url: string): Promise<PokemonDetails | null> {
-        if (!url) return null;
-        const response = await fetch(url);
-        const pokemonDetails: unknown = await response.json();
-        return await mapToPokemonDetails(pokemonDetails);
+        if (!pokemonDetails) return null;
+        return mapToPokemonDetails(pokemonDetails);
     }
 }
