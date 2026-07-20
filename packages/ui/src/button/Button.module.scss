@@ -1,31 +1,52 @@
 @use "sass:color";
-@use "../styles/variables" as vars;
+@use "../styles/variables" as v;
 
 .button {
     border: none;
-    border-radius: vars.$radius-base;
-    padding: vars.$spacing-sm vars.$spacing-md;
-    font-size: 1rem;
+    border-radius: v.$radius-sm;
+    padding: v.$spacing-sm v.$spacing-lg;
+    font-family: v.$font-body;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
     cursor: pointer;
+    transition:
+        transform v.$transition-base,
+        box-shadow v.$transition-base,
+        background-color v.$transition-base,
+        border-color v.$transition-base;
 
     &:focus-visible {
-        outline: 2px solid vars.$color-primary;
+        outline: 2px solid v.$color-primary;
         outline-offset: 2px;
     }
 
     &:disabled {
         cursor: not-allowed;
         opacity: 0.5;
+        transform: none !important;
+        box-shadow: none !important;
     }
 }
 
 .primary {
-    background-color: vars.$color-primary;
-    color: vars.$color-primary-contrast;
+    background-color: v.$color-primary;
+    color: v.$color-primary-contrast;
+    box-shadow: v.$shadow-sm;
+
+    &:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: v.$shadow-md;
+    }
 }
 
 .secondary {
     background-color: transparent;
-    color: color.adjust(vars.$color-primary, $lightness: -15%);
-    border: 1px solid vars.$color-primary;
+    color: v.$color-ink;
+    border: 1px solid v.$color-line;
+
+    &:hover:not(:disabled) {
+        background-color: v.$color-surface-2;
+        border-color: v.$color-primary;
+    }
 }

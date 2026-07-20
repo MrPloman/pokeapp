@@ -1,0 +1,24 @@
+// TableHeaderCell.module.scss
+@use "../styles/variables" as v;
+
+.sortButton {
+    display: inline-flex;
+    align-items: center;
+    gap: v.$spacing-xs;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+
+    &:hover {
+        color: v.$color-primary;
+    }
+
+    &:focus-visible {
+        outline: 2px solid v.$color-primary;
+        outline-offset: 2px;
+        border-radius: v.$radius-sm;
+    }
+}

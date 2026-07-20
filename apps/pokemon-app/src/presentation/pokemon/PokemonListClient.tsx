@@ -1,4 +1,6 @@
 "use client";
+import styles from "./PokemonListClient.module.scss";
+
 import { fetchPokemonList } from "@/src/actions/pokemonActions";
 import { pokemonKeys } from "@/src/queries/pokemonQueriesKeys";
 import {
@@ -163,7 +165,7 @@ export function PokemonListClient() {
             </div>
 
             {view === "cards" ? (
-                <div>
+                <div className={styles.cardsGrid}>
                     {allItems.map((pokemon) => (
                         <Card
                             key={pokemon.id}

@@ -25,6 +25,14 @@ $color-ink-muted: #cdb9a5;
 $color-ink-faint: #93806e;
 $color-line: rgba(242, 232, 221, 0.08);
 
+// Shadows
+$shadow-sm: 0 4px 12px -6px rgba(0, 0, 0, 0.5);
+$shadow-md: 0 20px 40px -18px rgba(0, 0, 0, 0.6);
+$shadow-lg: 0 26px 48px -16px rgba(0, 0, 0, 0.65);
+
+// Transitions
+$transition-base: 0.2s ease;
+
 // Typos
 $font-display: "Baloo 2", system-ui, sans-serif;
 $font-body: "Inter", system-ui, sans-serif;

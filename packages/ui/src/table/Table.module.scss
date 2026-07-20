@@ -1,17 +1,42 @@
-@use "../styles/variables" as vars;
+// Table.module.scss
+@use "../styles/variables" as v;
 
 .table {
     width: 100%;
     border-collapse: collapse;
+    font-family: v.$font-body;
+    color: v.$color-ink;
+    background: v.$color-surface;
+    border-radius: v.$radius-md;
+    overflow: hidden;
+    box-shadow: v.$shadow-sm;
 
     th,
     td {
-        padding: vars.$spacing-sm vars.$spacing-md;
+        padding: v.$spacing-sm v.$spacing-md;
         text-align: left;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid v.$color-line;
     }
 
-    tbody tr:hover {
-        background-color: rgba(0, 0, 0, 0.03);
+    thead th {
+        background: v.$color-surface-2;
+        font-family: v.$font-display;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        color: v.$color-ink-muted;
+    }
+
+    tbody tr {
+        transition: background-color v.$transition-base;
+
+        &:hover {
+            background-color: v.$color-surface-2;
+        }
+
+        &:last-child td {
+            border-bottom: none;
+        }
     }
 }
