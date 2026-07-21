@@ -70,7 +70,8 @@ export function PokemonListClient() {
     // Functions what checks the array of types and adds or removes the type.
     const updateTypesArray = (type: PokemonType, types: PokemonType[]): PokemonType[] => {
         if (types.includes(type)) return types.filter((currentType) => currentType !== type);
-        else return [...types, type];
+        if (types.length >= 2) return types; // ya hay 2, ignora la selección de un tercero
+        return [...types, type];
     };
 
     // The component core. When the filters change, the query is re-fetched with the new filters.
@@ -184,15 +185,20 @@ export function PokemonListClient() {
                 </div>
 
                 <div className={styles.typeFilters}>
-                    {ALL_TYPES.map((type: PokemonType) => (
-                        <Badge
-                            key={type}
-                            label={type}
-                            color={getTypeColor(type)}
-                            selected={filters.types?.includes(type) ?? false}
-                            onClick={() => filtersChanged(type)}
-                        />
-                    ))}
+                    {ALL_TYPES.map((type) => {
+                        const isSelected = filters.types?.includes(type) ?? false;
+                        const limitReached = (filters.types?.length ?? 0) >= 2;
+                        return (
+                            <Badge
+                                key={type}
+                                label={type}
+                                color={getTypeColor(type)}
+                                selected={isSelected}
+                                disabled={!isSelected && limitReached}
+                                onClick={() => filtersChanged(type)}
+                            />
+                        );
+                    })}
                 </div>
             </div>
 

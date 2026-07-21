@@ -14,7 +14,15 @@
     transition:
         transform v.$transition-base,
         box-shadow v.$transition-base;
+    &:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
 
+        &:hover {
+            transform: none;
+            box-shadow: none;
+        }
+    }
     &:hover {
         transform: translateY(-1px);
         box-shadow: v.$shadow-sm;

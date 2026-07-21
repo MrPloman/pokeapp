@@ -126,53 +126,34 @@ export class PokeApiPokemonRepository implements PokemonRepository {
     }
 
     async findByType(types: PokemonType[]): Promise<PokemonPreview[]> {
+        if (types.length === 0) return [];
+
         const responses = await Promise.all(
-            types.map((type) => {
-                return fetch(`${this.baseUrl}/type/${type}`);
-            }),
+            types.map((type) => fetch(`${this.baseUrl}/type/${type}`)),
+        );
+        const typeDataList = await Promise.all(responses.map((r) => r.json()));
+
+        const listsByType: { name: string; url: string }[][] = typeDataList.map((data) =>
+            data.pokemon.map((p: { pokemon: { name: string; url: string } }) => p.pokemon),
         );
 
-        const typeDataList = await Promise.all(responses.map((r) => r.json()));
-        const pokemonsBasicInfo = typeDataList
-            .map((data) =>
-                data.pokemon.map(
-                    (pokemonBasicInfo: { pokemon: { name: string; url: string } }) =>
-                        pokemonBasicInfo.pokemon,
-                ),
-            )
-            .flat();
-
-        const uniqueByUrl = Array.from(new Map(pokemonsBasicInfo.map((p) => [p.url, p])).values());
+        const [first, ...rest] = listsByType;
+        const intersected = first.filter((p) =>
+            rest.every((list) => list.some((q) => q.name === p.name)),
+        );
 
         const responsesPokemonDetail = await Promise.allSettled(
-            uniqueByUrl.map((callInfo: { name: string; url: string }) => fetch(callInfo.url)),
+            intersected.map((p) => fetch(p.url)),
         );
-
         const successfulResponses = responsesPokemonDetail
             .filter((r): r is PromiseFulfilledResult<Response> => r.status === "fulfilled")
             .map((r) => r.value);
 
-        const pokemonStructuredInfo = await Promise.all(
-            successfulResponses.map((response) => response.json()),
-        );
+        const pokemonStructuredInfo = await Promise.all(successfulResponses.map((r) => r.json()));
 
-        const details = pokemonStructuredInfo
+        return pokemonStructuredInfo
             .map((raw) => mapToPokemonDetails(raw))
-            .filter((p): p is PokemonDetails => p !== null);
-
-        const previews: PokemonPreview[] = details.map((d) => ({
-            id: d.id,
-            name: d.name,
-            imageUrl: d.imageUrl,
-            types: d.types,
-        }));
-
-        const seen = new Set<number>();
-        const unique = previews.filter((p) => {
-            if (seen.has(p.id)) return false;
-            seen.add(p.id);
-            return true;
-        });
-        return unique;
+            .filter((p): p is PokemonDetails => p !== null)
+            .map((d) => ({ id: d.id, name: d.name, imageUrl: d.imageUrl, types: d.types }));
     }
 }
