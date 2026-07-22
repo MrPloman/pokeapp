@@ -20,19 +20,21 @@ Repo: <URL_DEL_REPOSITORIO>
 
 Lo he hecho con arquitectura hexagonal: DDD.
 
+```
 pokemon-monorepo/
 ├── apps/
-│ └── pokemon-app/ # la app de Next.js en sí
-│ ├── app/ # todas las rutas: solo 2, lista y detalle
-│ └── src/
-│ ├── actions/ # server actions
-│ ├── composition/ # aquí se "conectan" el repositorio con los casos de uso
-│ ├── infrastructure/ # el adaptador que habla con la PokeAPI
-│ ├── presentation/ # componentes de cliente, colores por tipo
-│ └── queries/ # config de TanStack Query
+│   └── pokemon-app/          # la app de Next.js en sí
+│       ├── app/               # rutas: solo 2, lista y detalle
+│       └── src/
+│           ├── actions/       # server actions
+│           ├── composition/   # aquí se "conectan" el repositorio con los casos de uso
+│           ├── infrastructure/ # el adaptador que habla con la PokeAPI
+│           ├── presentation/  # componentes de cliente, colores por tipo
+│           └── queries/       # config de TanStack Query
 ├── packages/
-│ ├── core/ # dominio y lógica de negocio, sin nada de React ni Next
-│ └── ui/ # la librería de componentes (Button, Card, Badge, Table...)
+│   ├── core/                  # dominio y lógica de negocio, sin nada de React ni Next
+│   └── ui/                    # la librería de componentes (Button, Card, Badge, Table...)
+```
 
 ## Por qué está montado así?
 
