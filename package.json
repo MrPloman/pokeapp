@@ -12,6 +12,7 @@
         "build": "turbo build",
         "lint": "biome lint .",
         "format": "biome format --write .",
-        "check": "biome check --write ."
+        "check": "biome check --write .",
+        "ci:check": "biome check ."
     }
 }
