@@ -128,6 +128,29 @@ pnpm ci:check    # sin autofix, el mismo que corre en el CI
 
 En GitHub Actions, cada push o PR a `main` corre lint, tests y build en ese orden. Si algo falla, se corta ahí y no sigue.
 
+## Un par de cosas raras que me encontré (y cómo las resolví)
+
+**Uso Webpack en desarrollo, no Turbopack.** En Next 16, Turbopack es el compilador por defecto en `next dev`, incluso sin pasar ningún flag. Me topé con un crash reproducible de Turbopack (un panic interno) nada más entrar al listado, así que forcé Webpack explícitamente con `next dev --webpack`. Es un poco más lento compilando, pero mucho más estable. Para una entrega prefiero eso a que le crashee a alguien nada más abrir la app.
+
+**La primera carga en local tarda unos 2-3 segundos, luego va rápido.** Esto es normal en modo desarrollo: Next compila cada ruta la primera vez que la visitas, no de antemano. Si recargas después de esa primera vez, `/pokemon` carga en unos 300ms. En producción (Vercel) esto no pasa, porque todo se compila durante el build. Así que no vas a notarlo en el deploy, solo si lo levantas en local con `pnpm dev`.
+
+**Si al clonar el repo te sigue dando algún error raro de compilación** (con Webpack o si por lo que sea vuelve a aparecer algo parecido al panic de Turbopack), esto suele arreglarlo en orden:
+
+1. Borra toda la caché y reinstala:
+```bash
+   rm -rf apps/pokemon-app/.next .turbo node_modules apps/pokemon-app/node_modules packages/*/node_modules
+   pnpm install
+```
+2. Confirma que estás en Node 20+ (`node -v`) — versiones más viejas dan errores raros y difíciles de rastrear con Next 16.
+3. Si el error menciona específicamente Turbopack (aunque el script use `--webpack`), puede que algún caché antiguo de `.next` se haya quedado con configuración de la sesión anterior — el `rm -rf` del paso 1 ya lo cubre, pero si persiste, prueba forzando también:
+```bash
+   cd apps/pokemon-app
+   npx next dev --webpack
+```
+   directamente, sin pasar por `pnpm dev`/Turborepo, para descartar que el problema venga de la orquestación del monorepo y no de Next en sí.
+
+Es un bug conocido de Turbopack en Next 16 (no es exclusivo de este proyecto — hay varios hilos abiertos en el repo de Next.js sobre panics similares), así que si nada de esto lo resuelve, probablemente sea un problema del entorno local de quien lo ejecuta, no del código.
+
 ## Cosas que decidí simplificar, a propósito
 
 - Usé CSS Modules con Sass en vez de PandaCSS. El enunciado permite ambas, y con el tiempo que tenía preferí ir a lo que ya dominaba.
