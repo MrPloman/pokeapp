@@ -101,18 +101,18 @@ export function PokemonListClient() {
                 cell: (info) => (
                     <Button
                         variant="secondary"
-                        label="Ver"
+                        label="View"
                         onClick={() => router.push(`/pokemon/${info.row.original.id}`)}
                     />
                 ),
             }),
             columnHelper.accessor("id", {
-                header: "Número",
+                header: "Number",
                 cell: (info) => info.getValue(),
                 enableSorting: true,
             }),
             columnHelper.accessor("name", {
-                header: "Nombre",
+                header: "Name",
                 cell: (info) => info.getValue()[0].toUpperCase() + info.getValue().slice(1),
                 enableSorting: true,
             }),
