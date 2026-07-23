@@ -223,6 +223,11 @@ export function PokemonListClient() {
                         <Skeleton key={`skeleton${i}`} variant="rect" height={320} />
                     ))}
                 </div>
+            ) : allItems.length === 0 ? (
+                <div className={styles.emptyState}>
+                    <p className={styles.emptyTitle}>Pokemon Not Found</p>
+                    <p className={styles.emptyText}>Try with another name or modify the types...</p>
+                </div>
             ) : view === "cards" ? (
                 <div className={styles.cardsGrid}>
                     {allItems.map((pokemon) => (

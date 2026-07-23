@@ -1,14 +1,15 @@
-// apps/pokemon-app/app/layout.tsx
 import type { Metadata } from "next";
 import "./globals.scss";
 import "@repo/ui/dist/index.css";
 import { Layout } from "@repo/ui";
-import Head from "next/head";
 import { QueryProvider } from "../src/providers/QueryProvider";
 
 export const metadata: Metadata = {
     title: "Pokedex — Technical Test",
     description: "Technical Test Frontend Developer — Ediversa",
+    icons: {
+        icon: "/favicon.ico",
+    },
 };
 
 export default function RootLayout({
@@ -18,9 +19,6 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="es">
-            <Head>
-                <link rel="icon" href="/favicon.ico" sizes="any" />
-            </Head>
             <body>
                 <QueryProvider>
                     <Layout
